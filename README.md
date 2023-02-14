@@ -1,4 +1,4 @@
-# Oracle-Apex-Session-Manager
+# Oracle-Apex-Session-Manager-chromeextension
 To update the session Id of a stale session in all open tabs when clicking on the extension
 
 How to use:
