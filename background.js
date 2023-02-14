@@ -16,31 +16,7 @@ var mainSessionId;
 
 // Listen for session creation event
 chrome.runtime.onMessage.addListener((message) => {
- /*  if (message.action === "session_created") {
-    // Get all open tabs
-   chrome.tabs.query({}, (tabs) => {
-      tabs.forEach((tab) => {
-		   // Check if the tab is an Oracle Apex page and not in the Page Designer
-		  url = new URL(tab.url);
-		  params = new URLSearchParams(url.search);
-		  var sessionId = params.get('p').split(':')[2];
-		  var appId = params.get('p').split(':')[0];
-
-
-        // Check if the tab is an Oracle Apex page and not in the Page Designer
-        if (appId && !pageDesignerApps.includes(parseInt(appId, 10))) {
-          // Update the session ID in the URL
-         if (!(mainSessionID === sessionId)) {
-			// Reload the tab to update the session ID
-			params.set('p', 'APP_SESSION:' + newSessionId);
-			url.search = '?' + params.toString();
-			chrome.tabs.update(tab.id, { url: url });
-			chrome.tabs.reload(tab.id);
-		  }
-		}
-      });
-    });
-  } */
+ 
 
   if (message.action === "updateTabs") {
 	  
@@ -78,9 +54,11 @@ chrome.runtime.onMessage.addListener((message) => {
 				var newP = 'p=' + params.get('p').replace(sessionId, message.mainSessionId);
 				url.search = '?' + newP;
 				chrome.tabs.update(tab.id, { url: url.toString() });
-				// chrome.tabs.reload(tab.id);
+				
 			  }
-			}		  
+			}else{// reload all the front end tabs too -- because of the developer toolbar
+				  chrome.tabs.reload(tab.id);
+			  }		  
 		   }
 		  
       });
@@ -92,69 +70,3 @@ chrome.runtime.onMessage.addListener((message) => {
 	});
   }
 });
-
-/*
-// Listen for tab URL changes
-chrome.webNavigation.onDOMContentLoaded.addListener((details) => {
-  // Check if the page is an Oracle Apex page and not in the Page Designer
-  const appIdMatch = details.url.match(/f\?p=(\d+)/);
-  // if (appIdMatch && !pageDesignerApps.includes(parseInt(appIdMatch[1], 10))) {
-    // Get the current session ID
-    const sessionIdMatch = details.url.match(/f\?p=\d+(:\d+){2}:/);
-    if (sessionIdMatch) {
-		var url = new URL(details.url);
-		var params = new URLSearchParams(url.search);
-        mainSessionId = params.get('p').split(':')[2];	
-      // Send a message to the background script to update the session ID in all open tabs
-      chrome.runtime.sendMessage({ action: "session_created", sessionId });
-	  console.log("session_created = ", sessionId );
-    }
-  // } else if (appIdMatch && pageDesignerApps.includes(parseInt(appIdMatch[1], 10))) {
-    // Send a message to the background script to update the session ID in all open tabs
-    // chrome.runtime.sendMessage({ action: "session_created" });
-  // }
-});
-
-*/
-/*
-
-chrome.browserAction.onClicked.addListener(() => {
-	const appIdMatch = details.url.match(/f\?p=(\d+)/);
-  // if (appIdMatch && !pageDesignerApps.includes(parseInt(appIdMatch[1], 10))) {
-    // Get the current session ID
-    const sessionIdMatch = details.url.match(/f\?p=\d+(:\d+){2}:/);
-	var mainSessionID;
-    if (sessionIdMatch) {
-		var url = new URL(details.url);
-		var params = new URLSearchParams(url.search);
-        mainSessionID = params.get('p').split(':')[2];	
-      // Send a message to the background script to update the session ID in all open tabs
-      
-    }
-  // } else if (appIdMatch && pageDesignerApps.includes(parseInt(appIdMatch[1], 10))) {
-    // Send a message to the background script to update the session ID in all open tabs
-    // chrome.runtime.sendMessage({ action: "session_created" });
-  // }
-  if(mainSessionID){
-	chrome.tabs.query({}, (tabs) => {
-		tabs.forEach((tab) => {
-		  // Check if the tab is an Oracle Apex page and not in the Page Designer
-		  url = new URL(tab.url);
-		  params = new URLSearchParams(url.search);
-		  var sessionId = params.get('p').split(':')[2];
-
-		  if (!(mainSessionID === sessionId)) {
-			// Reload the tab to update the session ID
-			params.set('p', 'APP_SESSION:' + newSessionId);
-			url.search = '?' + params.toString();
-			chrome.tabs.update(tab.id, { url: url });
-			chrome.tabs.reload(tab.id);
-		  }
-		});
-	  });
-  }	  
-  
-});
-
-
-*/
