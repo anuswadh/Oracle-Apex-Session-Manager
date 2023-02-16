@@ -1,23 +1,11 @@
 {
   "name": "Oracle Apex Session Manager",
   "version": "1.0",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "description": "Updates session URLs in Oracle Apex",
-  "permissions": [
-    "tabs",
-    "webNavigation"
-  ],
-    "browser_action": {
+  "action": {
     "default_popup": "popup.html"
   },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["popup.js"]
-    }
-  ],
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": false
-  }
+  "permissions": ["tabs"],
+  "host_permissions": ["<all_urls>"]
 }
