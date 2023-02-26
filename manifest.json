@@ -4,7 +4,8 @@
   "manifest_version": 3,
   "description": "Updates session URLs in Oracle Apex",
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+	"default_icon": "ruler.png"
   },
   "permissions": ["tabs"],
   "host_permissions": ["<all_urls>"]
