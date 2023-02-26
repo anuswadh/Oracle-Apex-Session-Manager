@@ -29,3 +29,5 @@ Contributions are welcome! Feel free to submit pull requests or open issues for 
 ## License
 
 This project is licensed under the MIT License - see the <a href="https://opensource.org/license/mit/">https://opensource.org/license/mit/</a> file for details.
+
+<a href="https://www.flaticon.com/free-icons/ruler" title="ruler icons">Ruler icons created by Freepik - Flaticon</a>
