@@ -19,6 +19,8 @@ const pageDesignerApps = [
 
 var mainSessionId;
 var mainAppId;
+var mainHostName;
+var mainPathName;
 
 		
 	  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
@@ -34,6 +36,9 @@ var mainAppId;
 				var params = new URLSearchParams(url.search);
 				mainSessionId = params.get('p').split(':')[2];	
 				mainAppId = params.get('p').split(':')[0];	
+				mainHostName = url.hostname; // "www.example.com"
+				mainPathName = url.pathname; // "/path/to/page.html"
+				
 			  // Send a message to the background script to update the session ID in all open tabs
 				//chrome.runtime.sendMessage({ action: 'updateTabs' , mainSessionId: mainSessionId, mainAppId: mainAppId}, function(response) {
 				//	  console.log(response);
@@ -44,8 +49,14 @@ var mainAppId;
 					chrome.tabs.query({}, (tabs) => {
 					  tabs.forEach((tab) => {
 						  url = new URL(tab.url);
+
+						  var curHostName = url.hostname; // "www.example.com"
+						  var curPathName = url.pathname; // "/path/to/page.html"
+						  
+						  
+						  
 						  const sessionIdMatchtab = tab.url.match(/f\?p=\d+(:\d+){2}:/);
-						  if(sessionIdMatchtab){
+						  if(sessionIdMatchtab && (curHostName === mainHostName) && (curPathName === mainPathName)){
 							params = new URLSearchParams(url.search);
 							  console.log(params);
 							  var sessionId = params.get('p').split(':')[2];
